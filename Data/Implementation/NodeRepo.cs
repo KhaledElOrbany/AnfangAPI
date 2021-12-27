@@ -25,6 +25,15 @@ namespace AnfangAPI.Data.Implementation
             _context.Nodes.Add(node);
         }
 
+        public void DeleteNode(Node node)
+        {
+            if (node == null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+            _context.Nodes.Remove(node);
+        }
+
         public IEnumerable<Node> GetAllNodes()
         {
             return _context.Nodes.ToList();
@@ -33,11 +42,6 @@ namespace AnfangAPI.Data.Implementation
         public Node GetNodeById(int id)
         {
             return _context.Nodes.FirstOrDefault(x => x.Id == id);
-        }
-
-        public void PartialUpdateNode(Node node)
-        {
-            
         }
 
         public bool SaveChanges()

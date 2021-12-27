@@ -32,7 +32,7 @@ namespace AnfangAPI.Controllers
             }
             else
             {
-                return new EmptyResult();
+                return NotFound();
             }
         }
 
@@ -41,6 +41,10 @@ namespace AnfangAPI.Controllers
         public ActionResult<NodeReadDto> GetNodeById(int id)
         {
             var node = _nodeRepo.GetNodeById(id);
+            if (node == null)
+            {
+                return NotFound();
+            }
             return Ok(_mapper.Map<NodeReadDto>(node));
         }
 
@@ -94,6 +98,20 @@ namespace AnfangAPI.Controllers
             }
             _mapper.Map(nodeToPatch, node);
             _nodeRepo.UpdateNode(node);
+            _nodeRepo.SaveChanges();
+            return NoContent();
+        }
+
+        //Delete api/nodes/{id}
+        [HttpDelete("{id}")]
+        public ActionResult DeleteNode(int id)
+        {
+            var node = _nodeRepo.GetNodeById(id);
+            if (node == null)
+            {
+                return NotFound();
+            }
+            _nodeRepo.DeleteNode(node);
             _nodeRepo.SaveChanges();
             return NoContent();
         }
