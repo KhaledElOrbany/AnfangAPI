@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/el3orb/Documents/AnfangAPI/AnfangAPI.csproj": {}
+    "/home/el3orb/Desktop/AnfangAPI/AnfangAPI.csproj": {}
   },
   "projects": {
-    "/home/el3orb/Documents/AnfangAPI/AnfangAPI.csproj": {
+    "/home/el3orb/Desktop/AnfangAPI/AnfangAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/el3orb/Documents/AnfangAPI/AnfangAPI.csproj",
+        "projectUniqueName": "/home/el3orb/Desktop/AnfangAPI/AnfangAPI.csproj",
         "projectName": "AnfangAPI",
-        "projectPath": "/home/el3orb/Documents/AnfangAPI/AnfangAPI.csproj",
+        "projectPath": "/home/el3orb/Desktop/AnfangAPI/AnfangAPI.csproj",
         "packagesPath": "/home/el3orb/.nuget/packages/",
-        "outputPath": "/home/el3orb/Documents/AnfangAPI/obj/",
+        "outputPath": "/home/el3orb/Desktop/AnfangAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/el3orb/.nuget/NuGet/NuGet.Config"
@@ -35,6 +35,26 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.1.1, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
