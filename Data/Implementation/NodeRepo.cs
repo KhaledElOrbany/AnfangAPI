@@ -39,5 +39,7 @@ namespace AnfangAPI.Data.Implementation
         {
             return (_context.SaveChanges() >= 0);
         }
+
+        public void UpdateNode(Node node) { }
     }
 }

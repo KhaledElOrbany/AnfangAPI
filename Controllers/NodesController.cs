@@ -54,5 +54,20 @@ namespace AnfangAPI.Controllers
             var nodeReadDto = _mapper.Map<NodeReadDto>(nodeModel);
             return CreatedAtRoute(nameof(GetNodeById), new { Id = nodeReadDto.Id }, nodeReadDto);
         }
+
+        //POST api/nodes/{id}
+        [HttpPut("{id}")]
+        public ActionResult UpdateNode(int id, NodeUpdateDto nodeUpdateDto)
+        {
+            var node = _nodeRepo.GetNodeById(id);
+            if (node == null)
+            {
+                return NotFound();
+            }
+            _mapper.Map(nodeUpdateDto, node);
+            _nodeRepo.UpdateNode(node);
+            _nodeRepo.SaveChanges();
+            return NoContent();
+        }
     }
 }

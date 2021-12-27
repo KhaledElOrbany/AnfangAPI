@@ -9,5 +9,6 @@ namespace AnfangAPI.Data.Interfaces
         IEnumerable<Node> GetAllNodes();
         Node GetNodeById(int id);
         void CreateNode(Node node);
+        void UpdateNode(Node node);
     }
 }
