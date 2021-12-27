@@ -12,6 +12,7 @@ namespace AnfangAPI.Profiles
             CreateMap<Node, NodeReadDto>();
             CreateMap<NodeCreateDto, Node>();
             CreateMap<NodeUpdateDto, Node>();
+            CreateMap<Node, NodeUpdateDto>();
         }
     }
 }

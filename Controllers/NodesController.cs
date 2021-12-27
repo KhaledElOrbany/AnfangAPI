@@ -3,6 +3,7 @@ using AnfangAPI.Data.Interfaces;
 using AnfangAPI.DTOs;
 using AnfangAPI.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnfangAPI.Controllers
@@ -65,6 +66,33 @@ namespace AnfangAPI.Controllers
                 return NotFound();
             }
             _mapper.Map(nodeUpdateDto, node);
+            _nodeRepo.UpdateNode(node);
+            _nodeRepo.SaveChanges();
+            return NoContent();
+        }
+
+        //Patch api/nodes/{id}
+        [HttpPatch("{id}")]
+        public ActionResult PartialUpdateNode(int id, JsonPatchDocument<NodeUpdateDto> patchDoc)
+        {
+            // Check if we have the resource to update
+            var node = _nodeRepo.GetNodeById(id);
+            if (node == null)
+            {
+                return NotFound();
+            }
+
+            // Then, we generate the DTO from the model
+            var nodeToPatch = _mapper.Map<NodeUpdateDto>(node);
+
+            // Then, we apply the patch to it
+            patchDoc.ApplyTo(nodeToPatch, ModelState);
+            // Then, check if the patch update is done successfully
+            if (!TryValidateModel(nodeToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+            _mapper.Map(nodeToPatch, node);
             _nodeRepo.UpdateNode(node);
             _nodeRepo.SaveChanges();
             return NoContent();

@@ -35,6 +35,11 @@ namespace AnfangAPI.Data.Implementation
             return _context.Nodes.FirstOrDefault(x => x.Id == id);
         }
 
+        public void PartialUpdateNode(Node node)
+        {
+            
+        }
+
         public bool SaveChanges()
         {
             return (_context.SaveChanges() >= 0);
