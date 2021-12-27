@@ -8,7 +8,9 @@ namespace AnfangAPI.Profiles
     {
         public NodeProfile()
         {
+            // Source -> target
             CreateMap<Node, NodeReadDto>();
+            CreateMap<NodeCreateDto, Node>();
         }
     }
 }

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using AnfangAPI.Data;
+using AnfangAPI.Data.Interfaces;
 using AnfangAPI.DTOs;
 using AnfangAPI.Models;
 using AutoMapper;
@@ -20,6 +20,7 @@ namespace AnfangAPI.Controllers
             _nodeRepo = nodeRepo;
         }
 
+        //GET api/nodes/
         [HttpGet]
         public ActionResult<IEnumerable<NodeReadDto>> GetAllNodes()
         {
@@ -34,11 +35,24 @@ namespace AnfangAPI.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        //GET api/nodes/{id}
+        [HttpGet("{id}", Name = "GetNodeById")]
         public ActionResult<NodeReadDto> GetNodeById(int id)
         {
             var node = _nodeRepo.GetNodeById(id);
             return Ok(_mapper.Map<NodeReadDto>(node));
+        }
+
+        //POST api/nodes
+        [HttpPost]
+        public ActionResult<NodeReadDto> CreateNode(NodeCreateDto nodeCreateDto)
+        {
+            var nodeModel = _mapper.Map<Node>(nodeCreateDto);
+            _nodeRepo.CreateNode(nodeModel);
+            _nodeRepo.SaveChanges();
+
+            var nodeReadDto = _mapper.Map<NodeReadDto>(nodeModel);
+            return CreatedAtRoute(nameof(GetNodeById), new { Id = nodeReadDto.Id }, nodeReadDto);
         }
     }
 }

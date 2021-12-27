@@ -1,11 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AnfangAPI.Models
+namespace AnfangAPI.DTOs
 {
-    public class Node
+    public class NodeCreateDto
     {
-        [Key]
-        public int Id { get; set; }
         [Required]
         public string NodeName { get; set; }
         [Required]

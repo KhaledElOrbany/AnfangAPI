@@ -1,7 +1,7 @@
 using AnfangAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace AnfangAPI.Data
+namespace AnfangAPI.DataContext
 {
     public class NodeContext : DbContext
     {

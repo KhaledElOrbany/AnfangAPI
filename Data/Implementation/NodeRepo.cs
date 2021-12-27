@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using AnfangAPI.Data.Interfaces;
+using AnfangAPI.DataContext;
 using AnfangAPI.Models;
-using Microsoft.EntityFrameworkCore;
 
-namespace AnfangAPI.Data
+namespace AnfangAPI.Data.Implementation
 {
     public class NodeRepo : INodeRepo
     {
@@ -14,6 +16,15 @@ namespace AnfangAPI.Data
             _context = context;
         }
 
+        public void CreateNode(Node node)
+        {
+            if (node == null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+            _context.Nodes.Add(node);
+        }
+
         public IEnumerable<Node> GetAllNodes()
         {
             return _context.Nodes.ToList();
@@ -22,6 +33,11 @@ namespace AnfangAPI.Data
         public Node GetNodeById(int id)
         {
             return _context.Nodes.FirstOrDefault(x => x.Id == id);
+        }
+
+        public bool SaveChanges()
+        {
+            return (_context.SaveChanges() >= 0);
         }
     }
 }
