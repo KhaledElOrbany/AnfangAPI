@@ -11,6 +11,6 @@ namespace AnfangAPI.Data.Interfaces
         Node GetNodeById(int id);
         ReturnStates CreateNode(Node node);
         void UpdateNode(Node node);
-        void DeleteNode(Node node);
+        ReturnStates DeleteNode(Node node);
     }
 }

@@ -23,7 +23,7 @@ namespace AnfangAPI.Data.Implementation
             {
                 throw new ArgumentNullException(nameof(node));
             }
-            Node temp = _context.Nodes.Where(m => m.NodeMacAddress.Equals(node.NodeMacAddress)).FirstOrDefault();
+            Node temp = _context.Nodes.FirstOrDefault(m => m.NodeMacAddress.Equals(node.NodeMacAddress));
             if (temp == null)
             {
                 _context.Nodes.Add(node);
@@ -35,13 +35,14 @@ namespace AnfangAPI.Data.Implementation
             }
         }
 
-        public void DeleteNode(Node node)
+        public ReturnStates DeleteNode(Node node)
         {
             if (node == null)
             {
                 throw new ArgumentNullException(nameof(node));
             }
             _context.Nodes.Remove(node);
+            return ReturnStates.Deleted;
         }
 
         public IEnumerable<Node> GetAllNodes()

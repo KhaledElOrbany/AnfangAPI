@@ -123,9 +123,18 @@ namespace AnfangAPI.Controllers
             {
                 return NotFound();
             }
-            _nodeRepo.DeleteNode(node);
-            _nodeRepo.SaveChanges();
-            return NoContent();
+            var res = _nodeRepo.DeleteNode(node);
+            JsonObject jsonObject = new JsonObject();
+            if (res == ReturnStates.Deleted)
+            {
+                _nodeRepo.SaveChanges();
+                jsonObject.response = "Node has been deleted successfully.";
+            }
+            else
+            {
+                jsonObject.response = "Node has not been deleted!";
+            }
+            return new JsonResult(jsonObject.ToJSON());
         }
     }
 }
