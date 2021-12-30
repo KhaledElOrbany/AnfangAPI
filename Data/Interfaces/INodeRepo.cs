@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AnfangAPI.Models;
+using static AnfangAPI.Services.Enums;
 
 namespace AnfangAPI.Data.Interfaces
 {
@@ -8,7 +9,7 @@ namespace AnfangAPI.Data.Interfaces
         bool SaveChanges();
         IEnumerable<Node> GetAllNodes();
         Node GetNodeById(int id);
-        void CreateNode(Node node);
+        ReturnStates CreateNode(Node node);
         void UpdateNode(Node node);
         void DeleteNode(Node node);
     }

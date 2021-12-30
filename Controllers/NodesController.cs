@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using AnfangAPI.Data.Interfaces;
 using AnfangAPI.DTOs;
 using AnfangAPI.Models;
+using AnfangAPI.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using static AnfangAPI.Services.Enums;
 
 namespace AnfangAPI.Controllers
 {
@@ -53,11 +55,21 @@ namespace AnfangAPI.Controllers
         public ActionResult<NodeReadDto> CreateNode(NodeCreateDto nodeCreateDto)
         {
             var nodeModel = _mapper.Map<Node>(nodeCreateDto);
-            _nodeRepo.CreateNode(nodeModel);
-            _nodeRepo.SaveChanges();
+            var res = _nodeRepo.CreateNode(nodeModel);
 
-            var nodeReadDto = _mapper.Map<NodeReadDto>(nodeModel);
-            return CreatedAtRoute(nameof(GetNodeById), new { Id = nodeReadDto.Id }, nodeReadDto);
+            if (res == ReturnStates.Created)
+            {
+                _nodeRepo.SaveChanges();
+
+                var nodeReadDto = _mapper.Map<NodeReadDto>(nodeModel);
+                return CreatedAtRoute(nameof(GetNodeById), new { Id = nodeReadDto.Id }, nodeReadDto);
+            }
+            else
+            {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.response = "The node has not been created, due to duplicate.";
+                return new JsonResult(jsonObject.ToJSON());
+            }
         }
 
         //POST api/nodes/{id}

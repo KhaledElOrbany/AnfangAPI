@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using static AnfangAPI.Services.Enums;
 
 namespace AnfangAPI.Models
 {
@@ -11,5 +12,6 @@ namespace AnfangAPI.Models
         [Required]
         public string NodeMacAddress { get; set; }
         public bool NodeState { get; set; }
+        public NodeTypes Type { get; set; }
     }
 }
