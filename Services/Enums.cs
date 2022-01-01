@@ -31,5 +31,11 @@ namespace AnfangAPI.Services
             Deleted = 3,
             Duplicate = 4
         }
+
+        public enum WifiState
+        {
+            wifiIsClosed, 
+            wifiIsOpened
+        }
     }
 }
