@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AnfangAPI.DTOs
+namespace AnfangAPI.DTOs.Node
 {
     public class NodeUpdateDto
     {
