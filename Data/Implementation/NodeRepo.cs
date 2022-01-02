@@ -10,9 +10,9 @@ namespace AnfangAPI.Data.Implementation
 {
     public class NodeRepo : INodeRepo
     {
-        private readonly NodeContext _context;
+        private readonly DataBaseContext _context;
 
-        public NodeRepo(NodeContext context)
+        public NodeRepo(DataBaseContext context)
         {
             _context = context;
         }

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AnfangAPI.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20211230194639_modify_node_table")]
-    partial class modify_node_table
+    [Migration("20220102112151_update_tables")]
+    partial class update_tables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,6 +27,10 @@ namespace AnfangAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NodeMacAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -41,9 +45,52 @@ namespace AnfangAPI.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
+                    b.Property<int>("WifiState")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Nodes");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Node");
+                });
+
+            modelBuilder.Entity("AnfangAPI.Models.NodeType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("NodeTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NodeTypes");
+                });
+
+            modelBuilder.Entity("AnfangAPI.Models.Light", b =>
+                {
+                    b.HasBaseType("AnfangAPI.Models.Node");
+
+                    b.Property<float>("Brightness")
+                        .HasColumnType("real");
+
+                    b.HasDiscriminator().HasValue("Light");
+                });
+
+            modelBuilder.Entity("AnfangAPI.Models.Plug", b =>
+                {
+                    b.HasBaseType("AnfangAPI.Models.Node");
+
+                    b.Property<double>("Limit")
+                        .HasColumnType("float");
+
+                    b.Property<double>("SensorReading")
+                        .HasColumnType("float");
+
+                    b.HasDiscriminator().HasValue("Plug");
                 });
 #pragma warning restore 612, 618
         }

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AnfangAPI.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20211230194639_modify_node_table")]
-    partial class modify_node_table
+    [Migration("20220102111745_add_NodeType_model")]
+    partial class add_NodeType_model
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,6 +39,9 @@ namespace AnfangAPI.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WifiState")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

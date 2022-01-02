@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AnfangAPI.Migrations
 {
-    [DbContext(typeof(NodeContext))]
+    [DbContext(typeof(DataBaseContext))]
     [Migration("20211227133048_add_DataAnnotations")]
     partial class add_DataAnnotations
     {

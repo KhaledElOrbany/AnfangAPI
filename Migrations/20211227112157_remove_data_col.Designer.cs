@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AnfangAPI.Migrations
 {
-    [DbContext(typeof(NodeContext))]
+    [DbContext(typeof(DataBaseContext))]
     [Migration("20211227112157_remove_data_col")]
     partial class remove_data_col
     {

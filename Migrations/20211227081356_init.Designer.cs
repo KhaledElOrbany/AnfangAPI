@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AnfangAPI.Migrations
 {
-    [DbContext(typeof(NodeContext))]
+    [DbContext(typeof(DataBaseContext))]
     [Migration("20211227081356_init")]
     partial class init
     {
