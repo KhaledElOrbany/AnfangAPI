@@ -18,16 +18,44 @@ namespace AnfangAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("AnfangAPI.Models.Node", b =>
+            modelBuilder.Entity("AnfangAPI.Models.Light", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Discriminator")
+                    b.Property<float>("Brightness")
+                        .HasColumnType("real");
+
+                    b.Property<string>("NodeMacAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NodeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("NodeState")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WifiState")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Lights");
+                });
+
+            modelBuilder.Entity("AnfangAPI.Models.Node", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("NodeMacAddress")
                         .IsRequired()
@@ -49,8 +77,6 @@ namespace AnfangAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Nodes");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Node");
                 });
 
             modelBuilder.Entity("AnfangAPI.Models.NodeType", b =>
@@ -71,27 +97,39 @@ namespace AnfangAPI.Migrations
                     b.ToTable("NodeTypes");
                 });
 
-            modelBuilder.Entity("AnfangAPI.Models.Light", b =>
-                {
-                    b.HasBaseType("AnfangAPI.Models.Node");
-
-                    b.Property<float>("Brightness")
-                        .HasColumnType("real");
-
-                    b.HasDiscriminator().HasValue("Light");
-                });
-
             modelBuilder.Entity("AnfangAPI.Models.Plug", b =>
                 {
-                    b.HasBaseType("AnfangAPI.Models.Node");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<double>("Limit")
                         .HasColumnType("float");
 
+                    b.Property<string>("NodeMacAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NodeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("NodeState")
+                        .HasColumnType("bit");
+
                     b.Property<double>("SensorReading")
                         .HasColumnType("float");
 
-                    b.HasDiscriminator().HasValue("Plug");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WifiState")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Plugs");
                 });
 #pragma warning restore 612, 618
         }
