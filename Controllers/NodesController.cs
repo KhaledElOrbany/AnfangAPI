@@ -16,6 +16,8 @@ namespace AnfangAPI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly INodeRepo _nodeRepo;
+        private readonly IPlugRepo _plugRepo;
+        private readonly ILightRepo _lightRepo;
 
         public NodesController(IMapper mapper, INodeRepo nodeRepo)
         {

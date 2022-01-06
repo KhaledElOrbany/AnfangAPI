@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using AnfangAPI.Data.Interfaces;
 using AnfangAPI.DataContext;
 using AnfangAPI.Models;
@@ -17,32 +19,47 @@ namespace AnfangAPI.Data
 
         public ReturnStates CreateLight(Light light)
         {
-            throw new System.NotImplementedException();
+            if (light == null)
+            {
+                throw new ArgumentNullException(nameof(light));
+            }
+            Light temp = _context.Lights.FirstOrDefault(m => m.NodeMacAddress.Equals(light.NodeMacAddress));
+            if (temp == null)
+            {
+                _context.Lights.Add(light);
+                return ReturnStates.Created;
+            }
+            else
+            {
+                return ReturnStates.Duplicate;
+            }
         }
 
         public ReturnStates DeleteLight(Light light)
         {
-            throw new System.NotImplementedException();
+            if (light == null)
+            {
+                throw new ArgumentNullException(nameof(light));
+            }
+            _context.Lights.Remove(light);
+            return ReturnStates.Deleted;
         }
 
         public IEnumerable<Light> GetAllLights()
         {
-            throw new System.NotImplementedException();
+            return _context.Lights.ToList();
         }
 
         public Light GetLightById(int id)
         {
-            throw new System.NotImplementedException();
+            return _context.Lights.FirstOrDefault(x => x.Id == id);
         }
 
         public bool SaveChanges()
         {
-            throw new System.NotImplementedException();
+            return (_context.SaveChanges() >= 0);
         }
 
-        public void UpdateLight(Light light)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void UpdateLight(Light light) { }
     }
 }

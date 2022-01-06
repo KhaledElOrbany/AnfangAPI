@@ -7,16 +7,6 @@ namespace AnfangAPI.Models
     {
         public int Id { get; set; }
         public NodeTypes NodeTypeId { get; set; }
-        public string NodeTypeName
-        {
-            get
-            {
-                return NodeTypeId.GetEnumDescription();
-            }
-            set 
-            {
-                NodeTypeName = NodeTypeId.GetEnumDescription();
-            }
-        }
+        public string NodeTypeName { get; set; }
     }
 }
