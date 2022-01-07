@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AnfangAPI.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20220107050015_seed_table_2")]
-    partial class seed_table_2
+    [Migration("20220107052151_seed_table")]
+    partial class seed_table
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

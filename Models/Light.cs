@@ -12,6 +12,7 @@ namespace AnfangAPI.Models
         [Required]
         public string NodeMacAddress { get; set; }
         public bool NodeState { get; set; }
+        [Required]
         public NodeTypes Type { get; set; }
         public WifiState WifiState { get; set; }
         public float Brightness { get; set; }
