@@ -21,7 +21,11 @@ namespace AnfangAPI.Services
         {
             Plug = 1,
             Light = 2,
-            Fridge = 3
+            [Description("Humidity Sensor")]
+            HumiditySensor = 3,
+            [Description("Temperature Sensor")]
+            TemperatureSensor = 4,
+            DoorSensor = 5
         }
 
         public enum ReturnStates
@@ -34,7 +38,7 @@ namespace AnfangAPI.Services
 
         public enum WifiState
         {
-            wifiIsClosed, 
+            wifiIsClosed,
             wifiIsOpened
         }
     }
