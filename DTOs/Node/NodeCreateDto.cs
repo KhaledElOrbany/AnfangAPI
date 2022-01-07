@@ -9,7 +9,7 @@ namespace AnfangAPI.DTOs.Node
         public string NodeName { get; set; }
         [Required]
         public string NodeMacAddress { get; set; }
-        public bool NodeState { get; set; }
+        [Required]
         public NodeTypes Type { get; set; }
     }
 }
