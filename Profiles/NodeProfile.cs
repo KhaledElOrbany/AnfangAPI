@@ -1,6 +1,4 @@
-using AnfangAPI.DTOs.Light;
-using AnfangAPI.DTOs.Node;
-using AnfangAPI.DTOs.Plug;
+using AnfangAPI.DTOs;
 using AnfangAPI.Models;
 using AutoMapper;
 

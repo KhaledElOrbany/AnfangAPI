@@ -1,6 +1,6 @@
 using System;
 using AnfangAPI.Data.Interfaces;
-using AnfangAPI.DTOs.Node;
+using AnfangAPI.DTOs;
 using AnfangAPI.Models;
 using AnfangAPI.Services;
 using AutoMapper;
@@ -39,6 +39,29 @@ namespace AnfangAPI.Business
                 jsonObject.response = JsonResponseMsg.DuplicateError.GetEnumDescription();
                 return jsonObject;
             }
+        }
+
+        public JsonObject DeletePlugNode(int id)
+        {
+            JsonObject jsonObject = new JsonObject();
+            var plugModel = _plugRepo.GetPlugById(id);
+            if (plugModel == null)
+            {
+                jsonObject.response = JsonResponseMsg.NodeNotFound.GetEnumDescription();
+                return jsonObject;
+            }
+
+            var res = _plugRepo.DeletePlug(plugModel);
+            if (res == ReturnStates.Deleted)
+            {
+                _plugRepo.SaveChanges();
+                jsonObject.response = JsonResponseMsg.SuccessfullyDeleted.GetEnumDescription();
+            }
+            else
+            {
+                jsonObject.response = JsonResponseMsg.HasNotBeenDeleted.GetEnumDescription();
+            }
+            return jsonObject;
         }
     }
 }

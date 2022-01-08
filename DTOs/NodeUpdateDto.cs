@@ -1,9 +1,12 @@
-namespace AnfangAPI.DTOs.Node
+using System.ComponentModel.DataAnnotations;
+
+namespace AnfangAPI.DTOs
 {
-    public class NodeReadDto
+    public class NodeUpdateDto
     {
-        public int Id { get; set; }
+        [Required]
         public string NodeName { get; set; }
+        [Required]
         public string NodeMacAddress { get; set; }
         public bool NodeState { get; set; }
     }

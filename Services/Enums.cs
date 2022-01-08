@@ -44,12 +44,19 @@ namespace AnfangAPI.Services
 
         public enum JsonResponseMsg
         {
+            [Description("Node Not Found!")]
+            NodeNotFound = 1,
             [Description("Something Wrong Happened")]
-            SomethingWrongHappend = 1,
+            SomethingWrongHappend = 2,
             [Description("The node has not been created, due to duplicate.")]
-            DuplicateError = 2,
+            DuplicateError = 3,
             [Description("The node has ben successfully created!")]
-            SuccessfullyCreated = 3,
+            SuccessfullyCreated = 4,
+            [Description("Node has been deleted successfully.")]
+            SuccessfullyDeleted = 5,
+            [Description("Node has not been deleted!")]
+            HasNotBeenDeleted = 6
+
         }
     }
 }

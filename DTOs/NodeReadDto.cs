@@ -1,6 +1,6 @@
-namespace AnfangAPI.DTOs.Light
+namespace AnfangAPI.DTOs
 {
-    public class LightReadDto
+    public class NodeReadDto
     {
         public int Id { get; set; }
         public string NodeName { get; set; }

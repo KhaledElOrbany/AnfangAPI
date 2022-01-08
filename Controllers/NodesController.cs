@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using AnfangAPI.Business;
 using AnfangAPI.Data.Interfaces;
-using AnfangAPI.DTOs.Node;
+using AnfangAPI.DTOs;
 using AnfangAPI.Models;
 using AnfangAPI.Services;
 using AutoMapper;
@@ -32,7 +32,10 @@ namespace AnfangAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<NodeReadDto>> GetAllNodes()
         {
-            var nodes = _nodeRepo.GetAllNodes();
+            List<NodeReadDto> nodes = new List<NodeReadDto>();
+            nodes.AddRange(_mapper.Map<IEnumerable<NodeReadDto>>(_plugRepo.GetAllPlugs()));
+            nodes.AddRange(_mapper.Map<IEnumerable<NodeReadDto>>(_lightRepo.GetAllLights()));
+
             if (nodes != null)
             {
                 return Ok(_mapper.Map<IEnumerable<NodeReadDto>>(nodes));
@@ -43,16 +46,29 @@ namespace AnfangAPI.Controllers
             }
         }
 
-        //GET api/nodes/{id}
-        [HttpGet("{id}", Name = "GetNodeById")]
-        public ActionResult<NodeReadDto> GetNodeById(int id)
+        //GET api/nodes/{type}/{id}
+        [HttpGet("{type}/{id}", Name = "GetNodeById")]
+        public ActionResult<NodeReadDto> GetNodeById(int type, int id)
         {
-            var node = _nodeRepo.GetNodeById(id);
-            if (node == null)
+            if (type == (int)NodeTypes.Plug)
             {
-                return NotFound();
+                var node = _plugRepo.GetPlugById(id);
+                if (node == null)
+                {
+                    return NotFound();
+                }
+                return Ok(_mapper.Map<NodeReadDto>(node));
             }
-            return Ok(_mapper.Map<NodeReadDto>(node));
+            else if (type == (int)NodeTypes.Light)
+            {
+                var node = _lightRepo.GetLightById(id);
+                if (node == null)
+                {
+                    return NotFound();
+                }
+                return Ok(_mapper.Map<NodeReadDto>(node));
+            }
+            return NotFound();
         }
 
         //POST api/nodes
@@ -64,14 +80,16 @@ namespace AnfangAPI.Controllers
                 PlugBS plugBS = new PlugBS(_mapper, _plugRepo);
                 JsonObject jsonObject = plugBS.CreatePlugNode(nodeCreateDto);
 
-                return CreatedAtRoute(nameof(GetNodeById), new { Id = jsonObject.NodeReadDto.Id }, jsonObject.NodeReadDto);
+                return CreatedAtRoute(nameof(GetNodeById),
+                new { type = (int)NodeTypes.Plug, Id = jsonObject.NodeReadDto.Id }, jsonObject.NodeReadDto);
             }
             else if (nodeCreateDto.Type == NodeTypes.Light)
             {
                 LightBS lightBS = new LightBS(_mapper, _lightRepo);
                 JsonObject jsonObject = lightBS.CreateLightNode(nodeCreateDto);
 
-                return CreatedAtRoute(nameof(GetNodeById), new { Id = jsonObject.NodeReadDto.Id }, jsonObject.NodeReadDto);
+                return CreatedAtRoute(nameof(GetNodeById),
+                new { type = (int)NodeTypes.Light, Id = jsonObject.NodeReadDto.Id }, jsonObject.NodeReadDto);
             }
             else
             {
@@ -82,7 +100,7 @@ namespace AnfangAPI.Controllers
         }
 
         //POST api/nodes/{id}
-        [HttpPut("{id}")]
+        [HttpPut("{type}/{id}")]
         public ActionResult UpdateNode(int id, NodeUpdateDto nodeUpdateDto)
         {
             var node = _nodeRepo.GetNodeById(id);
@@ -96,8 +114,8 @@ namespace AnfangAPI.Controllers
             return NoContent();
         }
 
-        //Patch api/nodes/{id}
-        [HttpPatch("{id}")]
+        //Patch api/nodes/{type}/{id}
+        [HttpPatch("{type}/{id}")]
         public ActionResult PartialUpdateNode(int id, JsonPatchDocument<NodeUpdateDto> patchDoc)
         {
             // Check if we have the resource to update
@@ -123,27 +141,28 @@ namespace AnfangAPI.Controllers
             return NoContent();
         }
 
-        //Delete api/nodes/{id}
-        [HttpDelete("{id}")]
-        public ActionResult DeleteNode(int id)
+        //Delete api/nodes/{type}/{id}
+        [HttpDelete("{type}/{id}")]
+        public ActionResult DeleteNode(int type, int id)
         {
-            var node = _nodeRepo.GetNodeById(id);
-            if (node == null)
-            {
-                return NotFound();
-            }
-            var res = _nodeRepo.DeleteNode(node);
             JsonObject jsonObject = new JsonObject();
-            if (res == ReturnStates.Deleted)
+            if (type == (int)NodeTypes.Plug)
             {
-                _nodeRepo.SaveChanges();
-                jsonObject.response = "Node has been deleted successfully.";
+                PlugBS plugBS = new PlugBS(_mapper, _plugRepo);
+                jsonObject = plugBS.DeletePlugNode(id);
+                return new JsonResult(jsonObject.ToJSON());
+            }
+            else if (type == (int)NodeTypes.Light)
+            {
+                LightBS lightBS = new LightBS(_mapper, _lightRepo);
+                jsonObject = lightBS.DeleteLightNode(id);
+                return new JsonResult(jsonObject.ToJSON());
             }
             else
             {
-                jsonObject.response = "Node has not been deleted!";
+                jsonObject.response = JsonResponseMsg.SomethingWrongHappend.GetEnumDescription();
+                return new JsonResult(jsonObject.ToJSON());
             }
-            return new JsonResult(jsonObject.ToJSON());
         }
     }
 }
