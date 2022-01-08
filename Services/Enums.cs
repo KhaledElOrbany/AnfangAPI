@@ -38,8 +38,10 @@ namespace AnfangAPI.Services
 
         public enum WifiState
         {
-            wifiIsClosed,
-            wifiIsOpened
+            [Description("Wifi Is Closed")]
+            wifiIsClosed = 0,
+            [Description("Wifi Is Opened")]
+            wifiIsOpened = 1
         }
 
         public enum JsonResponseMsg
