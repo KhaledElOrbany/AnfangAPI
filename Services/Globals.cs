@@ -1,10 +1,12 @@
 using System.Text.Json;
+using AnfangAPI.DTOs.Node;
 
 namespace AnfangAPI.Services
 {
     public class JsonObject
     {
         public string response { get; set; }
+        public NodeReadDto NodeReadDto { get; set; }
     }
 
     public static class Globals

@@ -41,5 +41,15 @@ namespace AnfangAPI.Services
             wifiIsClosed,
             wifiIsOpened
         }
+
+        public enum JsonResponseMsg
+        {
+            [Description("Something Wrong Happened")]
+            SomethingWrongHappend = 1,
+            [Description("The node has not been created, due to duplicate.")]
+            DuplicateError = 2,
+            [Description("The node has ben successfully created!")]
+            SuccessfullyCreated = 3,
+        }
     }
 }

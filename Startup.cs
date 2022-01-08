@@ -1,4 +1,5 @@
 using System;
+using AnfangAPI.Data;
 using AnfangAPI.Data.Implementation;
 using AnfangAPI.Data.Interfaces;
 using AnfangAPI.DataContext;
@@ -35,6 +36,8 @@ namespace AnfangAPI
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddScoped<INodeRepo, NodeRepo>();
+            services.AddScoped<IPlugRepo, PlugRepo>();
+            services.AddScoped<ILightRepo, LightRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -17,16 +17,16 @@ namespace AnfangAPI.Profiles
             CreateMap<Node, NodeUpdateDto>();
 
             // Plug: Source -> target
-            CreateMap<Plug, PlugReadDto>();
-            CreateMap<PlugCreateDto, Plug>();
-            CreateMap<PlugUpdateDto, Plug>();
-            CreateMap<Plug, PlugUpdateDto>();
+            CreateMap<Plug, NodeReadDto>();
+            CreateMap<NodeCreateDto, Plug>();
+            CreateMap<NodeUpdateDto, Plug>();
+            CreateMap<Plug, NodeUpdateDto>();
 
             // Light: Source -> target
-            CreateMap<Light, LightReadDto>();
-            CreateMap<LightCreateDto, Light>();
-            CreateMap<LightUpdateDto, Light>();
-            CreateMap<Light, LightUpdateDto>();
+            CreateMap<Light, NodeReadDto>();
+            CreateMap<NodeCreateDto, Light>();
+            CreateMap<NodeUpdateDto, Light>();
+            CreateMap<Light, NodeUpdateDto>();
         }
     }
 }

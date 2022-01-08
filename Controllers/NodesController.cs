@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AnfangAPI.Business;
 using AnfangAPI.Data.Interfaces;
 using AnfangAPI.DTOs.Node;
 using AnfangAPI.Models;
@@ -19,10 +20,12 @@ namespace AnfangAPI.Controllers
         private readonly IPlugRepo _plugRepo;
         private readonly ILightRepo _lightRepo;
 
-        public NodesController(IMapper mapper, INodeRepo nodeRepo)
+        public NodesController(IMapper mapper, INodeRepo nodeRepo, IPlugRepo plugRepo, ILightRepo lightRepo)
         {
             _mapper = mapper;
             _nodeRepo = nodeRepo;
+            _plugRepo = plugRepo;
+            _lightRepo = lightRepo;
         }
 
         //GET api/nodes/
@@ -56,20 +59,24 @@ namespace AnfangAPI.Controllers
         [HttpPost]
         public ActionResult<NodeReadDto> CreateNode(NodeCreateDto nodeCreateDto)
         {
-            var nodeModel = _mapper.Map<Node>(nodeCreateDto);
-            var res = _nodeRepo.CreateNode(nodeModel);
-
-            if (res == ReturnStates.Created)
+            if (nodeCreateDto.Type == NodeTypes.Plug)
             {
-                _nodeRepo.SaveChanges();
+                PlugBS plugBS = new PlugBS(_mapper, _plugRepo);
+                JsonObject jsonObject = plugBS.CreatePlugNode(nodeCreateDto);
 
-                var nodeReadDto = _mapper.Map<NodeReadDto>(nodeModel);
-                return CreatedAtRoute(nameof(GetNodeById), new { Id = nodeReadDto.Id }, nodeReadDto);
+                return CreatedAtRoute(nameof(GetNodeById), new { Id = jsonObject.NodeReadDto.Id }, jsonObject.NodeReadDto);
+            }
+            else if (nodeCreateDto.Type == NodeTypes.Light)
+            {
+                LightBS lightBS = new LightBS(_mapper, _lightRepo);
+                JsonObject jsonObject = lightBS.CreateLightNode(nodeCreateDto);
+
+                return CreatedAtRoute(nameof(GetNodeById), new { Id = jsonObject.NodeReadDto.Id }, jsonObject.NodeReadDto);
             }
             else
             {
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.response = "The node has not been created, due to duplicate.";
+                jsonObject.response = JsonResponseMsg.SomethingWrongHappend.GetEnumDescription();
                 return new JsonResult(jsonObject.ToJSON());
             }
         }
