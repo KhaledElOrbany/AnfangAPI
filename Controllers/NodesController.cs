@@ -46,6 +46,31 @@ namespace AnfangAPI.Controllers
             }
         }
 
+        //GET api/nodes/{type}
+        [HttpGet("{type}")]
+        public ActionResult<NodeReadDto> GetNodesByType(int type)
+        {
+            if (type == (int)NodeTypes.Plug)
+            {
+                var plugs = _plugRepo.GetAllPlugs();
+                if (plugs == null)
+                {
+                    return NotFound();
+                }
+                return Ok(_mapper.Map<IEnumerable<NodeReadDto>>(plugs));
+            }
+            else if (type == (int)NodeTypes.Light)
+            {
+                var lights = _lightRepo.GetAllLights();
+                if (lights == null)
+                {
+                    return NotFound();
+                }
+                return Ok(_mapper.Map<IEnumerable<NodeReadDto>>(lights));
+            }
+            return NotFound();
+        }
+
         //GET api/nodes/{type}/{id}
         [HttpGet("{type}/{id}", Name = "GetNodeById")]
         public ActionResult<NodeReadDto> GetNodeById(int type, int id)
@@ -94,50 +119,76 @@ namespace AnfangAPI.Controllers
             else
             {
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.response = JsonResponseMsg.SomethingWrongHappend.GetEnumDescription();
+                jsonObject.response = JsonResponseMsg.SomethingWentWrong.GetEnumDescription();
                 return new JsonResult(jsonObject.ToJSON());
             }
         }
 
         //POST api/nodes/{id}
         [HttpPut("{type}/{id}")]
-        public ActionResult UpdateNode(int id, NodeUpdateDto nodeUpdateDto)
+        public ActionResult UpdateNode(int type, int id, NodeUpdateDto nodeUpdateDto)
         {
-            var node = _nodeRepo.GetNodeById(id);
-            if (node == null)
+            if (type == (int)NodeTypes.Plug)
             {
-                return NotFound();
+                PlugBS plugBS = new PlugBS(_mapper, _plugRepo);
+                plugBS.UpdatePlugNode(id, nodeUpdateDto);
             }
-            _mapper.Map(nodeUpdateDto, node);
-            _nodeRepo.UpdateNode(node);
-            _nodeRepo.SaveChanges();
+            else if (type == (int)NodeTypes.Light)
+            {
+                LightBS lightBS = new LightBS(_mapper, _lightRepo);
+                lightBS.UpdateLightNode(id, nodeUpdateDto);
+            }
+
             return NoContent();
         }
 
         //Patch api/nodes/{type}/{id}
         [HttpPatch("{type}/{id}")]
-        public ActionResult PartialUpdateNode(int id, JsonPatchDocument<NodeUpdateDto> patchDoc)
+        public ActionResult PartialUpdateNode(int type, int id, JsonPatchDocument<NodeUpdateDto> patchDoc)
         {
-            // Check if we have the resource to update
-            var node = _nodeRepo.GetNodeById(id);
-            if (node == null)
+            NodeUpdateDto nodeToPatch = null;
+            if (type == (int)NodeTypes.Plug)
             {
-                return NotFound();
+                var plugModel = _plugRepo.GetPlugById(id);
+                if (plugModel == null)
+                {
+                    return NotFound();
+                }
+                nodeToPatch = _mapper.Map<NodeUpdateDto>(plugModel);
+
+                // Then, we apply the patch to it
+                patchDoc.ApplyTo(nodeToPatch, ModelState);
+                // Then, check if the patch update is done successfully
+                if (!TryValidateModel(nodeToPatch))
+                {
+                    return ValidationProblem(ModelState);
+                }
+                _mapper.Map(nodeToPatch, plugModel);
+                _plugRepo.UpdatePlug(plugModel);
+                _plugRepo.SaveChanges();
+            }
+            else if (type == (int)NodeTypes.Light)
+            {
+                var lightModel = _lightRepo.GetLightById(id);
+                if (lightModel == null)
+                {
+                    return NotFound();
+                }
+                nodeToPatch = _mapper.Map<NodeUpdateDto>(lightModel);
+
+                // Then, we apply the patch to it
+                patchDoc.ApplyTo(nodeToPatch, ModelState);
+                // Then, check if the patch update is done successfully
+                if (!TryValidateModel(nodeToPatch))
+                {
+                    return ValidationProblem(ModelState);
+                }
+                _mapper.Map(nodeToPatch, lightModel);
+                _lightRepo.UpdateLight(lightModel);
+                _lightRepo.SaveChanges();
             }
 
-            // Then, we generate the DTO from the model
-            var nodeToPatch = _mapper.Map<NodeUpdateDto>(node);
 
-            // Then, we apply the patch to it
-            patchDoc.ApplyTo(nodeToPatch, ModelState);
-            // Then, check if the patch update is done successfully
-            if (!TryValidateModel(nodeToPatch))
-            {
-                return ValidationProblem(ModelState);
-            }
-            _mapper.Map(nodeToPatch, node);
-            _nodeRepo.UpdateNode(node);
-            _nodeRepo.SaveChanges();
             return NoContent();
         }
 
@@ -160,7 +211,7 @@ namespace AnfangAPI.Controllers
             }
             else
             {
-                jsonObject.response = JsonResponseMsg.SomethingWrongHappend.GetEnumDescription();
+                jsonObject.response = JsonResponseMsg.SomethingWentWrong.GetEnumDescription();
                 return new JsonResult(jsonObject.ToJSON());
             }
         }

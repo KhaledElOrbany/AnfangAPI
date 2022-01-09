@@ -4,6 +4,7 @@ using AnfangAPI.DTOs;
 using AnfangAPI.Models;
 using AnfangAPI.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using static AnfangAPI.Services.Enums;
 
 namespace AnfangAPI.Business
@@ -61,6 +62,24 @@ namespace AnfangAPI.Business
             {
                 jsonObject.response = JsonResponseMsg.HasNotBeenDeleted.GetEnumDescription();
             }
+            return jsonObject;
+        }
+
+        public JsonObject UpdateLightNode(int id, NodeUpdateDto nodeUpdateDto)
+        {
+            JsonObject jsonObject = new JsonObject();
+            var lightModel = _lightRepo.GetLightById(id);
+            if (lightModel == null)
+            {
+                jsonObject.response = JsonResponseMsg.NodeNotFound.GetEnumDescription();
+                return jsonObject;
+            }
+
+            _mapper.Map(nodeUpdateDto, lightModel);
+            _lightRepo.UpdateLight(lightModel);
+            _lightRepo.SaveChanges();
+
+            jsonObject.response = JsonResponseMsg.SuccessfullyUpdated.GetEnumDescription();
             return jsonObject;
         }
     }
