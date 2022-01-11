@@ -17,7 +17,7 @@ namespace AnfangAPI.Models
         public WifiState WifiState { get; set; }
         public double Limit { get; set; }
         public double SensorReading { get; set; }
-        
+        public virtual Hub Hub { get; set; }
         //TODO: Add online property
     }
 }
