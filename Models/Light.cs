@@ -16,7 +16,7 @@ namespace AnfangAPI.Models
         public NodeTypes Type { get; set; }
         public WifiState WifiState { get; set; }
         public float Brightness { get; set; }
-        public virtual Hub Hub { get; set; }
+        // public virtual Hub Hub { get; set; }
 
         //TODO: Add online property
     }
