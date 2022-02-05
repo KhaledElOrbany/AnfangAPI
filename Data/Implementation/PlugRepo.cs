@@ -7,7 +7,7 @@ using AnfangAPI.Models;
 using AnfangAPI.Services;
 using static AnfangAPI.Services.Enums;
 
-namespace AnfangAPI.Data
+namespace AnfangAPI.Data.Implementation
 {
     public class PlugRepo : IPlugRepo
     {
