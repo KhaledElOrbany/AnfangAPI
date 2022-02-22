@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AnfangAPI.Data.Interfaces;
 using AnfangAPI.DataContext;
 using AnfangAPI.Models;
@@ -16,7 +17,22 @@ namespace AnfangAPI.Data.Implementation
             this.dataBaseContext = dataBaseContext;
         }
 
+        public IEnumerable<NodeType> GetAllNodeTypes()
+        {
+            return this.dataBaseContext.NodeTypes.ToList();
+        }
+
+        public NodeType GetNodeTypeById(int id)
+        {
+            return this.dataBaseContext.NodeTypes.FirstOrDefault(x => x.Id == id);
+        }
+
         public ReturnStates CreateNodeType(NodeType nodeType)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void UpdateNodeType(NodeType nodeType)
         {
             throw new System.NotImplementedException();
         }
@@ -26,22 +42,7 @@ namespace AnfangAPI.Data.Implementation
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<NodeType> GetAllNodeTypes()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public NodeType GetNodeTypeById(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public bool SaveChanges()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void UpdateNodeType(NodeType nodeType)
         {
             throw new System.NotImplementedException();
         }

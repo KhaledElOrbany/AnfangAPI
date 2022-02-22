@@ -38,6 +38,7 @@ namespace AnfangAPI
             services.AddScoped<INodeRepo, NodeRepo>();
             services.AddScoped<IPlugRepo, PlugRepo>();
             services.AddScoped<ILightRepo, LightRepo>();
+            services.AddScoped<INodeTypeRepo, NodeTypeRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

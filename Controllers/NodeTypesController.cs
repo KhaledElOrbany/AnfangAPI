@@ -8,23 +8,49 @@ namespace AnfangAPI.controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    class NodeTypesController : ControllerBase
+    public class NodeTypesController : ControllerBase
     {
-        private readonly IMapper _mapper;
+        private readonly IMapper mapper;
 
-        private readonly INodeTypeRepo _nodeTypeRepo;
+        private readonly INodeTypeRepo nodeTypeRepo;
 
         public NodeTypesController(INodeTypeRepo nodeTypeRepo, IMapper mapper)
         {
-            this._mapper = mapper;
-            this._nodeTypeRepo = nodeTypeRepo;
+            this.mapper = mapper;
+            this.nodeTypeRepo = nodeTypeRepo;
         }
 
-        //GET api/NodeTypes
+        //GET api/nodetypes
         [HttpGet]
         public ActionResult<IEnumerable<NodeTypeReadDto>> GetNodeTypes()
         {
-            return new EmptyResult();
+            List<NodeTypeReadDto> nodeTypes = new List<NodeTypeReadDto>();
+            nodeTypes.AddRange(this.mapper.Map<IEnumerable<NodeTypeReadDto>>(this.nodeTypeRepo.GetAllNodeTypes()));
+
+            if (nodeTypes != null)
+            {
+                return Ok(nodeTypes);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        //GET api/nodetypes/{id}
+        [HttpGet("{typeId}")]
+        public ActionResult<NodeTypeReadDto> GetNodeTypeById(int typeId)
+        {
+            var nodeType = this.nodeTypeRepo.GetNodeTypeById(typeId);
+
+            if (nodeType != null)
+            {
+                return Ok(this.mapper.Map<NodeTypeReadDto>(nodeType));
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }
