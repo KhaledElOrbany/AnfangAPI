@@ -6,7 +6,7 @@ using AnfangAPI.DataContext;
 using AnfangAPI.Models;
 using static AnfangAPI.Services.Enums;
 
-namespace AnfangAPI.Data.Implementation.Implementation
+namespace AnfangAPI.Data.Implementation
 {
     public class NodeRepo : INodeRepo
     {

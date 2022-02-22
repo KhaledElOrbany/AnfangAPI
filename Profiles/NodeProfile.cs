@@ -1,4 +1,4 @@
-using AnfangAPI.DTOs;
+using AnfangAPI.DTOs.Node;
 using AnfangAPI.Models;
 using AutoMapper;
 

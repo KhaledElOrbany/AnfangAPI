@@ -1,6 +1,6 @@
 using static AnfangAPI.Services.Enums;
 
-namespace AnfangAPI.DTOs
+namespace AnfangAPI.DTOs.Node
 {
     public class NodeReadDto
     {

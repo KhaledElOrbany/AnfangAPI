@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using AnfangAPI.Business;
 using AnfangAPI.Data.Interfaces;
-using AnfangAPI.DTOs;
-using AnfangAPI.Models;
+using AnfangAPI.DTOs.Node;
 using AnfangAPI.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
@@ -22,10 +21,10 @@ namespace AnfangAPI.Controllers
 
         public NodesController(IMapper mapper, INodeRepo nodeRepo, IPlugRepo plugRepo, ILightRepo lightRepo)
         {
-            _mapper = mapper;
-            _nodeRepo = nodeRepo;
-            _plugRepo = plugRepo;
-            _lightRepo = lightRepo;
+            this._mapper = mapper;
+            this._nodeRepo = nodeRepo;
+            this._plugRepo = plugRepo;
+            this._lightRepo = lightRepo;
         }
 
         //GET api/nodes/
