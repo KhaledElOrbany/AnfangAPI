@@ -6,11 +6,11 @@ namespace AnfangAPI.Data.Interfaces
 {
     public interface INodeTypeRepo
     {
-        bool SaveChanges();
-        IEnumerable<NodeType> GetAllLights();
-        NodeType GetLightById(int id);
-        ReturnStates CreateLight(NodeType nodeType);
-        void UpdateLight(NodeType nodeType);
-        ReturnStates DeleteLight(NodeType nodeType);
+        public bool SaveChanges();
+        public IEnumerable<NodeType> GetAllNodeTypes();
+        public NodeType GetNodeTypeById(int id);
+        public ReturnStates CreateNodeType(NodeType nodeType);
+        public void UpdateNodeType(NodeType nodeType);
+        public ReturnStates DeleteNodeType(NodeType nodeType);
     }
 }

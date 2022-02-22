@@ -1,38 +1,47 @@
 using System.Collections.Generic;
 using AnfangAPI.Data.Interfaces;
+using AnfangAPI.DataContext;
 using AnfangAPI.Models;
 using AnfangAPI.Services;
+using static AnfangAPI.Services.Enums;
 
 namespace AnfangAPI.Data.Implementation
 {
     public class NodeTypeRepo : INodeTypeRepo
     {
-        Enums.ReturnStates INodeTypeRepo.CreateLight(NodeType nodeType)
+        private readonly DataBaseContext dataBaseContext;
+
+        public NodeTypeRepo(DataBaseContext dataBaseContext)
+        {
+            this.dataBaseContext = dataBaseContext;
+        }
+
+        public ReturnStates CreateNodeType(NodeType nodeType)
         {
             throw new System.NotImplementedException();
         }
 
-        Enums.ReturnStates INodeTypeRepo.DeleteLight(NodeType nodeType)
+        public ReturnStates DeleteNodeType(NodeType nodeType)
         {
             throw new System.NotImplementedException();
         }
 
-        IEnumerable<NodeType> INodeTypeRepo.GetAllLights()
+        public IEnumerable<NodeType> GetAllNodeTypes()
         {
             throw new System.NotImplementedException();
         }
 
-        NodeType INodeTypeRepo.GetLightById(int id)
+        public NodeType GetNodeTypeById(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        bool INodeTypeRepo.SaveChanges()
+        public bool SaveChanges()
         {
             throw new System.NotImplementedException();
         }
 
-        void INodeTypeRepo.UpdateLight(NodeType nodeType)
+        public void UpdateNodeType(NodeType nodeType)
         {
             throw new System.NotImplementedException();
         }
